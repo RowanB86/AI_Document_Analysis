@@ -8,6 +8,7 @@ Created on Wed Mar  5 22:59:51 2025
 import streamlit as st
 import fitz
 import openai
+import time
 
 if 'user_prompts' not in st.session_state:
     st.session_state.user_prompts = []
