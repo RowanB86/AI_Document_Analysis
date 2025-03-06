@@ -17,7 +17,7 @@ openai.api_key = st.secrets["openai"]["api_key"]
 
 uploaded_files = st.file_uploader("Upload PDF documents to be scanned.", accept_multiple_files=True, type="pdf")
 
-num_chars = int(st.text_input("Enter max number of characters of text to process at once" , value = "500000"))
+num_chars = int(st.text_input("Enter max number of characters of text to process at once" , value = "100000"))
 
 overlap = int(st.text_input("Enter number of chars that each batch of text will overlap", value = "1000"))
 
