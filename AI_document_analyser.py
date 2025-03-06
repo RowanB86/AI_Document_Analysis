@@ -73,7 +73,8 @@ if st.button("Summarise documents"):
                 
                     start_char = max(0,end_char - overlap)
                     end_char = min(start_char + num_chars,doc_length)
-                
+                    st.write("Pausing for 1 minute to avoid exceeding rate limit.") 
+                    time.sleep(60)                
                 else:
                     
                     continue_processing = False
