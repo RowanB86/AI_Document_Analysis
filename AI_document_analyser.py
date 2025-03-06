@@ -79,8 +79,7 @@ if st.button("Summarise documents"):
                 else:
                     
                     continue_processing = False
-                    st.write("Pausing for 1 minute to avoid exceeding rate limit.") 
-                    time.sleep(60)
+
                 
                 
                 text_block_num += 1
