@@ -1,0 +1,25 @@
+streamlit==1.30.0  # Use a slightly older stable version for faster install
+streamlit_folium==0.11.0
+firebase_admin==6.2.0
+pandas==2.1.4      # Use a newer, compatible version
+numpy==1.26.2      # Compatible with Python 3.12
+requests==2.31.0
+openai==0.28
+streamlit-aggrid
+plotly==5.18.0
+dash
+streamlit_ace
+sqlalchemy
+duckdb
+pyarrow
+sympy
+scipy
+matplotlib
+pygame
+pillow
+opencv-python
+boto3
+sentencepiece
+torch
+transformers==4.37.2
+accelerate
