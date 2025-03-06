@@ -40,23 +40,39 @@ for item in st.session_state.user_prompts:
         if st.button("❌", key=item):
             st.session_state.user_prompts.remove(item)
             st.rerun()   
+            
+first_document_processed = False
+
 
 if st.button("Summarise documents"):
     if uploaded_files:
-        for file in uploaded_files:#
+        for file in uploaded_files:
+            
+            if first_document_processed:
+                if doc_length > 80000:
+                    st.write("Pausing for 1 minute to avoid exceeding rate limit.") 
+                    time.sleep(60)                     
+
             doc = fitz.open(stream=file.read(), filetype="pdf")
             doc_text = "\n".join([page.get_text("text") for page in doc])
             doc_text = doc_text.strip()
             
             st.markdown(f"**Evaluation of Document {file.name}**")
+
+            
             
             doc_length = len(doc_text)
             start_char = 0
             end_char = min(start_char + num_chars,doc_length)
+             
             continue_processing = True
+             
             text_block_num = 1
             
             while continue_processing:
+
+                
+                    
 
                 messages = [{"role": "system", "content": system_prompt}]
                 for item in st.session_state.user_prompts:
@@ -77,9 +93,9 @@ if st.button("Summarise documents"):
                     st.write("Pausing for 1 minute to avoid exceeding rate limit.") 
                     time.sleep(60)                
                 else:
-                    
+                    chars_processed = doc_length
                     continue_processing = False
-
+                    first_document_processed = True 
                 
                 
                 text_block_num += 1
