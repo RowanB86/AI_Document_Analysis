@@ -53,6 +53,7 @@ if st.button("Summarise documents"):
             start_char = 0
             end_char = min(start_char + num_chars,doc_length)
             continue_processing = True
+            text_block_num = 1
             
             while continue_processing:
 
@@ -63,7 +64,8 @@ if st.button("Summarise documents"):
                 messages += [{"role": "user", "content": "This is the document you should base your answer(s) on: " + doc_text[start_char:end_char]}]
                 response = openai.ChatCompletion.create(model="gpt-4o",messages=messages)
                 doc_evaluation = response["choices"][0]["message"]["content"] 
-                    
+                
+                st.write("Text block :" + str(text_block_num))
                 st.write(doc_evaluation)
                 
                 
@@ -78,3 +80,4 @@ if st.button("Summarise documents"):
         
                 
                 
+                text_block_num += 1
