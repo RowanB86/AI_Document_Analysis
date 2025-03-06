@@ -9,6 +9,15 @@ import streamlit as st
 import fitz
 import openai
 import time
+import tiktoken
+
+def count_tokens(text, model):
+    # Load the encoding for the specified model
+    encoding = tiktoken.encoding_for_model(model)
+    
+    # Encode the text and count tokens
+    tokens = encoding.encode(text)
+    return len(tokens)
 
 if 'user_prompts' not in st.session_state:
     st.session_state.user_prompts = []
@@ -16,6 +25,8 @@ if 'user_prompts' not in st.session_state:
 openai.api_key = st.secrets["openai"]["api_key"]
 
 uploaded_files = st.file_uploader("Upload PDF documents to be scanned.", accept_multiple_files=True, type="pdf")
+
+selected_model = st.selectbox("Select model",options=["gpt-4o","gpt-4o-mini","gpt-3.5-turbo"])
 
 num_chars = int(st.text_input("Enter max number of characters of text to process at once" , value = "100000"))
 
@@ -43,7 +54,6 @@ for item in st.session_state.user_prompts:
             
 first_document_processed = False
 
-
 if st.button("Summarise documents"):
     if uploaded_files:
         for file in uploaded_files:
@@ -59,8 +69,6 @@ if st.button("Summarise documents"):
             
             st.markdown(f"**Evaluation of Document {file.name}**")
 
-            
-            
             doc_length = len(doc_text)
             start_char = 0
             end_char = min(start_char + num_chars,doc_length)
@@ -71,23 +79,18 @@ if st.button("Summarise documents"):
             
             while continue_processing:
 
-                
-                    
-
                 messages = [{"role": "system", "content": system_prompt}]
                 for item in st.session_state.user_prompts:
                     messages += [{"role": "user", "content": item}]
                 
                 messages += [{"role": "user", "content": "This is the document you should base your answer(s) on: " + doc_text[start_char:end_char]}]
-                response = openai.ChatCompletion.create(model="gpt-4o",messages=messages)
+                response = openai.ChatCompletion.create(model=selected_model,messages=messages)
                 doc_evaluation = response["choices"][0]["message"]["content"] 
                 
                 st.write("Text block :" + str(text_block_num))
                 st.write(doc_evaluation)
-                
-                
+
                 if end_char < doc_length:
-                
                     start_char = max(0,end_char - overlap)
                     end_char = min(start_char + num_chars,doc_length)
                     st.write("Pausing for 1 minute to avoid exceeding rate limit.") 
