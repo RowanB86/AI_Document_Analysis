@@ -55,6 +55,7 @@ for item in st.session_state.user_prompts:
 first_document_processed = False
 
 if st.button("Summarise documents"):
+    st.session_state.response = ''
     if uploaded_files:
         for file in uploaded_files:
             
@@ -86,6 +87,11 @@ if st.button("Summarise documents"):
                 messages += [{"role": "user", "content": "This is the document you should base your answer(s) on: " + doc_text[start_char:end_char]}]
                 response = openai.ChatCompletion.create(model=selected_model,messages=messages)
                 doc_evaluation = response["choices"][0]["message"]["content"] 
+
+                if st.session_state.response == ''
+                    st.session_state.response = "Text block :" + str(text_block_num) + '\n' + doc_evaluation
+                else:
+                    st.session_state.response += "Text block :" + str(text_block_num) + '\n' +  doc_evaluation
                 
                 st.write("Text block :" + str(text_block_num))
                 st.write(doc_evaluation)
@@ -102,3 +108,7 @@ if st.button("Summarise documents"):
                 
                 
                 text_block_num += 1
+
+if 'response' in st.session_state:
+    if st.button("Press to recover response (if lost)"):
+        st.write(st.session_state.response)
