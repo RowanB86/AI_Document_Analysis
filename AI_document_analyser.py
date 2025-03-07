@@ -89,9 +89,9 @@ if st.button("Summarise documents"):
                 doc_evaluation = response["choices"][0]["message"]["content"] 
 
                 if st.session_state.response == '':
-                    st.session_state.response = st.markdown(f"**Text block " + str({text_block_num})** + ':\n' + {doc_evaluation}")
+                    st.session_state.response = st.markdown(f"**Text block  {str(text_block_num)}** + ':\n' + {doc_evaluation}")
                 else:
-                    st.session_state.response += st.markdown(f"**Text block " + str({text_block_num})** + ':\n' +  {doc_evaluation}")
+                    st.session_state.response += st.markdown(f"**Text block " + {str(text_block_num)}** + ':\n' +  {doc_evaluation}")
                 
                 st.markdown("# Text block " + str(text_block_num) + ":")
                 st.write(doc_evaluation)
