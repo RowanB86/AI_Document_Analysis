@@ -88,7 +88,7 @@ if st.button("Summarise documents"):
                 response = openai.ChatCompletion.create(model=selected_model,messages=messages)
                 doc_evaluation = response["choices"][0]["message"]["content"] 
 
-                if st.session_state.response == ''
+                if st.session_state.response == '':
                     st.session_state.response = "Text block :" + str(text_block_num) + '\n' + doc_evaluation
                 else:
                     st.session_state.response += "Text block :" + str(text_block_num) + '\n' +  doc_evaluation
