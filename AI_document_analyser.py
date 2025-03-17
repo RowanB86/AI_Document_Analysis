@@ -11,6 +11,9 @@ import openai
 import time
 import tiktoken
 
+st.set_option("server.enableFileWatcher", False)
+
+
 def count_tokens(text, model):
     # Load the encoding for the specified model
     encoding = tiktoken.encoding_for_model(model)
