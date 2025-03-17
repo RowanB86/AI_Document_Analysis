@@ -11,7 +11,7 @@ import openai
 import time
 import tiktoken
 
-st.set_option("server.enableFileWatcher", False)
+#st.set_option("server.enableFileWatcher", False)
 
 
 def count_tokens(text, model):
